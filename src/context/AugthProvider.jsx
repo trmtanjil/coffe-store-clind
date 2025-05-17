@@ -1,6 +1,6 @@
 import React from 'react'
 import { AuthContext } from '../../AugthContext'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword,signInWithEmailAndPassword  } from 'firebase/auth'
 import { auth } from '../fairebase/firebase.init'
 
 function AugthProvider({children}) {
@@ -10,9 +10,13 @@ function AugthProvider({children}) {
     const createuser = (email, password)=>{
         return createUserWithEmailAndPassword(auth,email, password)
     }
+    const signinUser = (email, password)=>{
+         return signInWithEmailAndPassword(auth, email, password);
+    }
 
     const userIinfo = {
         createuser,
+        signinUser,
 
     }
   return (

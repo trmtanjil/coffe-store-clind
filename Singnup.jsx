@@ -14,16 +14,21 @@ function Singnup() {
         const form = e.target;
 
         const formdata = new FormData(form)
-        const {email, password, ...userProfile} = Object.fromEntries(formdata.entries())
-
-        // const email = formdata.get('email');
-        // const password = formdata.get('password')
-        console.log(email, password,userProfile)
-
+        const {email, password, ...restFormData} = Object.fromEntries(formdata.entries())
+        
+      
+        
         //creat user in the firebase 
         createuser(email, password)
         .then(result=>{
             console.log(result.user)
+
+            const userProfile={
+                email,
+                ...restFormData,
+                creationTime:result.user.metadata.creationTime,
+                lastSignInTime:result.user.metadata.lastSignInTime
+            }
 
             fetch('http://localhost:5000/users',{
                 method:'POST',

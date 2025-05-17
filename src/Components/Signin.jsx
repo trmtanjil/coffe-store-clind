@@ -1,11 +1,40 @@
-import React from 'react'
+import React, { use } from 'react'
+import { AuthContext } from '../../AugthContext';
 
 function Signin() {
+  const {signinUser} = use(AuthContext)
+  console.log(signinUser)
+
 
     const handlesignin=e=>{
         e.preventDefault();
-
-        
+        const form = e.target;
+        const email =form.email.value;
+        const password = form.password.value;
+        signinUser(email,password)
+        .then(result=>{
+          console.log(result)
+          const userInfo = {
+            email,
+            lastSignInTime:result.user?.metadata?.lastSignInTime
+          }
+          //update last sign in to the databse 
+          fetch('http://localhost:5000/users',{
+            method:'PATCH',
+            headers:{
+               'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(userInfo)
+          })
+          .then(res=>res.json())
+          .then(data=>{
+            console.log('after edit data patch ',data)
+          })
+        })
+        .catch(error=>{
+          console.log(error)
+        })
+ 
     }
   return (
    <div className='py-12'>

@@ -17,6 +17,7 @@ import CoffeDetails from './Components/CoffeDetails.jsx';
 import Signin from './Components/Signin.jsx';
 import Singnup from '../Singnup.jsx';
 import AugthProvider from './context/AugthProvider.jsx';
+import Users from './Components/Users.jsx';
 
 const router = createBrowserRouter([
   {
@@ -58,6 +59,11 @@ const router = createBrowserRouter([
       path:'signup',
       Component:Singnup,
      },
+     {
+      path:'users',
+      loader:()=>fetch('http://localhost:5000/users'),
+      Component:Users,
+     }
 
     ]
   },
